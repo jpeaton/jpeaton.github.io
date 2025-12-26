@@ -1,1 +1,1 @@
-[Read the Blog →](/blog/)
+[➡ Blog](/blog/)
