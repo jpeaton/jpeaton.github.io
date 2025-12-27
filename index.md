@@ -1,4 +1,7 @@
 # Hello, World!
+
+![Welcome Animation](/assets/merry-xmas-one-piece.gif)
+
 ## Cybersecurity & Technology
 
 I document real-world IT security work, lab builds, and practical notes
