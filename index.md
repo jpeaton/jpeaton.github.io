@@ -1,5 +1,5 @@
-# Welcome!
-## Cybersecurity | Technology
+# Hello, World!
+## Cybersecurity & Technology
 
 I document real-world IT security work, lab builds, and practical notes
 
