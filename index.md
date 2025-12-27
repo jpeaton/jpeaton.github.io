@@ -1,4 +1,4 @@
-# Happy Holiday, World!
+# Happy Holidays, World!
 
 ![Welcome Animation](/assets/merry-xmas-one-piece.gif)
 
