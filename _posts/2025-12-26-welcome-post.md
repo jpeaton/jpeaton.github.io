@@ -1,11 +1,9 @@
 ---
 layout: post
 title: "Welcome!"
-date: 2025-01-26
+date: 2025-12-26
 author: Jeremiah Eaton
 ---
-
-## Welcome!
 
 Merry Christmas! This website will server as my home base for staying up to date on important news and information regarding the cybersecurity and IT world, the world that I'm currently living in. I'm an intern at a small/medium-sized law firm in downtown Chicago currently doing IT Support and Cybersecurity work. In short, I help people who are about to succumb to their demons (they didn't check to see if they are connected to the VPN), and I identify and find remediations for critical vulnerabilities (updates that were deferred indefinitely). I'm hoping to finish my Master's in Cybersecurity by this March (2026) and find a full-time job so I can finally start saving more than 2-3 months of rent. 
 
