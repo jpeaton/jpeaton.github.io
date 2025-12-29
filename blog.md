@@ -6,6 +6,9 @@ permalink: /blog/
 
 # Blog
 
+## Categories
+- **[ELIF – Explain Like I’m Five](/blog/elif/)**
+
 Browse all posts below (newest first).
 
 <ul>
