@@ -4,7 +4,7 @@
 
 ## Cybersecurity & Technology
 
-I document real-world IT security work, lab builds, and practical notes
+I document real-world IT security work, practical notes, and lessons learned through my work/studies.
 
 ---
 
