@@ -31,7 +31,7 @@ MITRE ATT&CK framework reframes it as
 
 > Where were we vulnerable in the attack chain?
 
-This allows us to pinpoint which stage failed, strengthen defenses at that point, and reduce the chance or impact of similar attacks in the future
+This allows us to pinpoint which stage failed, strengthen defenses at that point, and reduce the chance or impact of similar attacks in the future.
 
 If you can:
 
@@ -58,9 +58,13 @@ They don't just magically teleport inside your house and teleport out with your 
 What will this most likely look like?
 
 1.) Bad guy looks for a way to get into your house.
+
 2.) Bad guy finds a good way in.
+
 3.) Bad guy goes through your house trying to find your iPad, being careful of alarms and making too much noise.
+
 4.) Bad guy locates the iPad and grabs it.
+
 5.) Bad guy sneaks away with minimal to no evidence.
 
 You can ask:
