@@ -1,6 +1,6 @@
-# Happy Holidays, World!
+# Happy New Year, World!
 
-![Welcome Animation](/assets/merry-xmas-one-piece.gif)
+![Welcome Animation](/assets/ch_new_year.jpg)
 
 ## Cybersecurity & Technology
 
