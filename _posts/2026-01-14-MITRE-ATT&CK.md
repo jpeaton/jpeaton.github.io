@@ -5,13 +5,13 @@ date: 2026-01-14
 categories: [elif]
 ---
 
-## Intro
+# Intro
 
 Cybersecurity. Cyber warfare. Cyber attacks. Cyber defense. Advanced Persistent Threat. Reconnaissance. Infiltration. Exfiltration. All of these are terms used in the field of Information Security, but what else do they remind you of? If you said the military, congratulations because you're going to the fast money round.
 
 Isn't that what militaries do? They attack, they defend, they track and eliminate threats, they do reconnaissance to scope out the enemy, they infiltrate enemy lines to accomplish secretive missions, they exfiltrate sensitive items and documents. What does that have to do with cybersecurity? Everything. Welcome to the MITRE ATT&CK framework, let's break this thing down.
 
-## What's with the Miltary Terminology?
+# What's with the Miltary Terminology?
 
 Much like military operations, cyber attacks *are* campaigns. We're not talking about a simple click and go, we're talking about a full on operation that requires several steps to accomplish a goal.
 
@@ -45,7 +45,7 @@ MITRE ATT&CK isn’t about trying to seem tough with military words.
 
 It’s about mapping digital warfare into something humans can understand and defend against.
 
-## Okay, Can You Explain the Actual Framework?
+# Okay, Can You Explain the Actual Framework?
 
 Sure I can, reader. In fact, I'll explain it like you're five!
 
@@ -79,7 +79,7 @@ If we fix that specific step, the bad guy will have a **much** harder time tryin
 
 MITRE ATT&CK sets you up for success, so that you fix your weaknesses and stop guessing.
 
-##TL;DR
+# TL;DR
 
 Bad guys follow plans.
 
