@@ -5,7 +5,6 @@ permalink: /projects/Net511FinalProject
 ---
 
 # NET 511 - Telecommunications Systems Design & Analysis
-#### a.k.a how the internet actually works, not just that it works
 
 ## Project Overview
 
