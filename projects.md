@@ -3,5 +3,6 @@ layout: default
 title: My Projects
 permalink: /projects/
 ---
+# Personal Projects
 
-# My Projects
+# School Projects
