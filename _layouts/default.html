@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cursor = document.createElement("span");
   cursor.id = "term-cursor";
   cursor.classList.add("idle");
-  cursor.textContent = " "; // block is via background
+  cursor.textContent = "█"; // block is via background
   container.appendChild(cursor);
 
   // Collect all text nodes (skip code/pre)
