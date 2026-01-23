@@ -89,9 +89,16 @@ p {
   line-height: 1.55;
 }
 
+/* Make headers feel like shell prompts */
 h1::before,
 h2::before,
 h3::before {
   content: "> ";
   color: var(--green);
+}
+
+/* Cursor-style emphasis */
+h1::after {
+  content: " █";
+  opacity: 0.8;
 }
