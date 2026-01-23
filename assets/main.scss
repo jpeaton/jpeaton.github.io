@@ -16,8 +16,16 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--green);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace;
+  font-family:
+  "JetBrains Mono",
+  ui-monospace,
+  SFMono-Regular,
+  Menlo,
+  Monaco,
+  Consolas,
+  "Liberation Mono",
+  "Courier New",
+  monospace;
 }
 
 /* Centered terminal container */
