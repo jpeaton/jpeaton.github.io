@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap">
     <link rel="stylesheet" href="/assets/main.css" />
   </head>
 
@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
   cursor.id = "term-cursor";
   cursor.classList.add("idle");
   cursor.textContent = "█"; // block is via background
-  container.appendChild(cursor);
 
   // Collect all text nodes (skip code/pre)
   const walker = document.createTreeWalker(
@@ -58,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // Save originals and clear text
   const originals = nodes.map(node => node.nodeValue);
   nodes.forEach(node => (node.nodeValue = ""));
+  if (nodes.length > 0 && nodes[0].parentElement) {
+  nodes[0].parentElement.appendChild(cursor);
+  }
 
   // Helper: move cursor to "insertion point" after a specific text node
   function moveCursorToNode(node) {
