@@ -1,7 +1,4 @@
-theme: minima
 description: this is really happening
-sass:
-  style: compressed
 title: this is happening
 author: Jeremiah Eaton
 
