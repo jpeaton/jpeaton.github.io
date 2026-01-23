@@ -1,3 +1,7 @@
 theme: jekyll-theme-hacker
-title: Jeremiah Eaton's Website
+sass:
+  style: compressed
+title: this is happening
 author: Jeremiah Eaton
+
+
