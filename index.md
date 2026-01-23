@@ -2,7 +2,7 @@
 
 # Happy New Year, World!
 
-![Welcome Animation](/assets/ch_new_year.jpg){: .welcome-img }
+<img src="/assets/images/ch_new_year.jpg" alt="Welcome" class="welcome-img">
 
 ## Cybersecurity & Technology
 
