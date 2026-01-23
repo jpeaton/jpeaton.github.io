@@ -106,10 +106,9 @@ h3::before {
 /* Single terminal cursor */
 #term-cursor {
   display: inline-block;
-  width: 0.6ch;
   margin-left: 0.1ch;
-  background: var(--green);
-  vertical-align: baseline;
+  color: var(--green);
+  line-height: 1;
 }
 
 /* Blink only when idle */
