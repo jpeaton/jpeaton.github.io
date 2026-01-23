@@ -14,5 +14,77 @@
     <main class="terminal">
       {{ content }}
     </main>
+    <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const container = document.querySelector("main.terminal");
+    if (!container) return;
+
+    // Optional: turn this off for people who prefer reduced motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Speed controls
+    const CHAR_DELAY_MS = 6;     // smaller = faster (try 4–10)
+    const NODE_PAUSE_MS = 40;    // pause between text nodes
+
+    // Mark typing state
+    container.classList.add("typing");
+
+    // Collect all text nodes inside container (but skip code blocks)
+    const walker = document.createTreeWalker(
+      container,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode(node) {
+          // Skip empty/whitespace-only nodes
+          if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+
+          // Skip nodes inside <code> or <pre> (so code doesn't "type out")
+          const parent = node.parentElement;
+          if (parent && (parent.closest("pre") || parent.closest("code"))) {
+            return NodeFilter.FILTER_REJECT;
+          }
+
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const textNodes = [];
+    let n;
+    while ((n = walker.nextNode())) textNodes.push(n);
+
+    // Save original text and clear it
+    const originals = textNodes.map(node => node.nodeValue);
+    textNodes.forEach(node => (node.nodeValue = ""));
+
+    container.classList.remove("typing");
+    container.classList.add("typed");
+
+    // Type through each text node sequentially
+    let nodeIndex = 0;
+    let charIndex = 0;
+
+    function typeNextChar() {
+      if (nodeIndex >= textNodes.length) return;
+
+      const node = textNodes[nodeIndex];
+      const full = originals[nodeIndex];
+
+      node.nodeValue = full.slice(0, charIndex + 1);
+      charIndex++;
+
+      if (charIndex < full.length) {
+        setTimeout(typeNextChar, CHAR_DELAY_MS);
+      } else {
+        // Done with this node; move to next
+        nodeIndex++;
+        charIndex = 0;
+        setTimeout(typeNextChar, NODE_PAUSE_MS);
+      }
+    }
+
+    typeNextChar();
+  });
+  </script>
   </body>
 </html>
