@@ -1,74 +1,67 @@
----
----
+/* ===== Terminal aesthetic ===== */
 
-@import "minima";
-
-/* ===== Terminal look ===== */
 :root {
   --bg: #050805;
-  --text: #c7f5c7;
-  --muted: #86c986;
-  --link: #4cff4c;
-  --border: rgba(199,245,199,.18);
+  --green: #39ff14;
+  --muted: #9aff9a;
+  --border: rgba(57, 255, 20, 0.25);
 }
 
-html, body, .site-header, .site-footer, .page-content, .wrapper {
-  background: var(--bg) !important;
-  color: var(--text) !important;
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--green);
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
-    "Liberation Mono", "Courier New", monospace !important;
+    "Liberation Mono", "Courier New", monospace;
 }
 
-a { color: var(--link) !important; text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-small, .post-meta, .site-description { color: var(--muted) !important; }
-
-.page-content {
+/* Centered terminal container */
+.terminal {
   max-width: 900px;
-  margin: 40px auto;
+  margin: 48px auto;
   padding: 32px;
   border: 1px solid var(--border);
-  border-radius: 10px;
-}
-
-pre, code {
-  background: rgba(199,245,199,.06) !important;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-}
-pre { padding: 12px; overflow-x: auto; }
-hr { border: 0; border-top: 1px solid var(--border); }
-
-/* ===== Force consistent "hacker green" ===== */
-:root {
-  --hacker: #39ff14; /* classic bright green */
+  border-radius: 12px;
 }
 
 /* Headings */
-h1, h2, h3, h4, h5, h6,
-.site-title, .post-title, .page-heading {
-  color: var(--hacker) !important;
+h1, h2, h3 {
+  color: var(--green);
+  margin-top: 1.5em;
 }
 
-/* Nav / header links */
-.site-nav a,
-.site-header a,
-.site-title a,
-.page-link {
-  color: var(--hacker) !important;
+/* Links */
+a {
+  color: var(--green);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 
-/* Stop visited links from turning lighter/purple */
-a:visited,
-.site-nav a:visited,
-.page-link:visited {
-  color: var(--hacker) !important;
+/* Muted text */
+small {
+  color: var(--muted);
 }
 
-/* Optional: make hover slightly softer (still green) */
-a:hover,
-.site-nav a:hover,
-.page-link:hover {
-  color: #a8ffa8 !important;
+/* Code */
+pre, code {
+  background: rgba(57, 255, 20, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+pre {
+  padding: 12px;
+  overflow-x: auto;
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
 }
