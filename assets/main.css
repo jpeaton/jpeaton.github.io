@@ -69,7 +69,10 @@ small {
 }
 
 /* re-size welcome image */
-<img src="/assets/images/ch_new_year.jpg" alt="Welcome" width="300">
+.welcome-img {
+  width: 300px;
+  max-width: 100%;
+}
 
 
 /* Code */
