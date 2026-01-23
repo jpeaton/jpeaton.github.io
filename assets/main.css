@@ -97,8 +97,13 @@ h3::before {
   color: var(--green);
 }
 
-/* Cursor-style emphasis */
+/* Blinking terminal cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
 h1::after {
   content: " █";
-  opacity: 0.8;
+  animation: blink 1.1s steps(1) infinite;
 }
