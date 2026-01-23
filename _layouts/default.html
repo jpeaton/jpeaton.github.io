@@ -60,11 +60,13 @@ document.addEventListener("DOMContentLoaded", () => {
   nodes.forEach(node => (node.nodeValue = ""));
 
   // Helper: move cursor to "insertion point" after a specific text node
-  function moveCursorAfterTextNode(node) {
-  const parentEl = node.parentElement;
-  if (!parentEl) return;
-  parentEl.appendChild(cursor); // ensures cursor is at end of that element’s visible text
-  }
+  function moveCursorToNode(node) {
+  const el = node.parentElement;
+  if (!el) return;
+
+  // Always keep cursor as the last child of the element being typed
+  el.appendChild(cursor);
+}
 
   let nodeIndex = 0;
   let charIndex = 0;
@@ -85,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const full = originals[nodeIndex];
 
     node.nodeValue = full.slice(0, charIndex + 1);
-    moveCursorAfterTextNode(node);
+    moveCursorToNode(node);
 
     charIndex++;
 
