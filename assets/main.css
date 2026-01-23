@@ -97,16 +97,27 @@ h3::before {
   color: var(--green);
 }
 
-/* Blinking terminal cursor */
+/* Blinking terminal cursor - UNUSED NOW */
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
 }
 
-h1::after,
-h2::after,
-h3::after,
-h4::after {
-  content: " █";
-  animation: blink 1.1s steps(1) infinite;
+/* Single terminal cursor */
+#term-cursor {
+  display: inline-block;
+  width: 0.6ch;
+  margin-left: 0.1ch;
+  background: var(--green);
+  vertical-align: baseline;
+}
+
+/* Blink only when idle */
+#term-cursor.idle {
+  animation: termBlink 1.1s steps(1) infinite;
+}
+
+@keyframes termBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
 }
