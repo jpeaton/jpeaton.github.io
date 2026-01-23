@@ -28,6 +28,14 @@ html, body {
   monospace;
 }
 
+html, body {
+  font-weight: 500;            
+  font-size: 16.75px;            /* slightly larger = clearer glyphs */
+  letter-spacing: 0.35px;        /* terminal spacing */
+  -webkit-font-smoothing: none;  /* removes web-y smoothing */
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* Centered terminal container */
 .terminal {
   max-width: 900px;
@@ -41,6 +49,9 @@ html, body {
 h1, h2, h3 {
   color: var(--green);
   margin-top: 1.5em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: lowercase; /* optional but very terminal-coded */
 }
 
 /* Links */
@@ -72,4 +83,15 @@ pre {
 hr {
   border: none;
   border-top: 1px solid var(--border);
+}
+
+p {
+  line-height: 1.55;
+}
+
+h1::before,
+h2::before,
+h3::before {
+  content: "> ";
+  color: var(--green);
 }
