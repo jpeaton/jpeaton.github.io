@@ -29,10 +29,10 @@ html, body {
 }
 
 html, body {
-  font-weight: 500;            
-  font-size: 16.75px;            /* slightly larger = clearer glyphs */
-  letter-spacing: 0.35px;        /* terminal spacing */
-  -webkit-font-smoothing: none;  /* removes web-y smoothing */
+  font-weight: 500;
+  font-size: 16.5px;
+  letter-spacing: 0.3px;
+  -webkit-font-smoothing: none;
   -moz-osx-font-smoothing: grayscale;
 }
 
@@ -50,7 +50,7 @@ h1, h2, h3 {
   color: var(--green);
   margin-top: 1.5em;
   font-weight: 600;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.45px;
   text-transform: lowercase; /* optional but very terminal-coded */
 }
 
