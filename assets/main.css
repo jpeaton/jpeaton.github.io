@@ -68,6 +68,10 @@ small {
   color: var(--muted);
 }
 
+/* re-size welcome image */
+<img src="/assets/images/ch_new_year.jpg" alt="Welcome" width="300">
+
+
 /* Code */
 pre, code {
   background: rgba(57, 255, 20, 0.08);
