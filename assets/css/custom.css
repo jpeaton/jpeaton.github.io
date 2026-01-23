@@ -1,4 +1,55 @@
-body {
-  background-color: #050805;
-  color: #c7f5c7;
+:root {
+  --bg: #050805;
+  --text: #c7f5c7;
+  --muted: #86c986;
+  --link: #4cff4c;
+  --link-hover: #a8ffa8;
+  --border: rgba(199, 245, 199, 0.18);
+}
+
+html, body {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--link) !important;
+  text-decoration: none;
+}
+a:hover {
+  color: var(--link-hover) !important;
+  text-decoration: underline;
+}
+
+h1, h2, h3 {
+  color: #e6ffe6 !important;
+  letter-spacing: 0.2px;
+}
+
+small, .post-meta, .site-description {
+  color: var(--muted) !important;
+}
+
+/* Make content readable + centered */
+.wrapper, .page-content, .post, main {
+  max-width: 900px;
+}
+
+/* Code blocks */
+pre, code {
+  background: rgba(199, 245, 199, 0.06) !important;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+pre {
+  padding: 12px;
+  overflow-x: auto;
+}
+
+/* Subtle separators */
+hr {
+  border: 0;
+  border-top: 1px solid var(--border);
 }
