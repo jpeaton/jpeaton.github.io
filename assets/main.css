@@ -70,8 +70,11 @@ small {
 
 /* re-size welcome image */
 .welcome-img {
-  width: 300px;
-  max-width: 100%;
+  width: 280px;
+  max-width: 90%;
+  display: block;
+  margin: 24px auto;
+  opacity: 0.9;
 }
 
 
