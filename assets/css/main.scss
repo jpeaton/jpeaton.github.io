@@ -1,0 +1,41 @@
+---
+---
+
+@import "minima";
+
+/* ===== Terminal look ===== */
+:root {
+  --bg: #050805;
+  --text: #c7f5c7;
+  --muted: #86c986;
+  --link: #4cff4c;
+  --border: rgba(199,245,199,.18);
+}
+
+html, body, .site-header, .site-footer, .page-content, .wrapper {
+  background: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace !important;
+}
+
+a { color: var(--link) !important; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+small, .post-meta, .site-description { color: var(--muted) !important; }
+
+.page-content {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+pre, code {
+  background: rgba(199,245,199,.06) !important;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+pre { padding: 12px; overflow-x: auto; }
+hr { border: 0; border-top: 1px solid var(--border); }
