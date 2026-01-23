@@ -1,3 +1,5 @@
+# ./run_website_for_jeremiah.sh
+
 # Happy New Year, World!
 
 ![Welcome Animation](/assets/ch_new_year.jpg)
