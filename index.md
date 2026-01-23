@@ -2,7 +2,7 @@
 
 # Happy New Year, World!
 
-<img src="https://github.com/jpeaton/jpeaton.github.io/blob/main/assets/ch_new_year.jpg" alt="Welcome" class="welcome-img">
+<img src="/assets/ch_new_year.jpg" alt="Welcome" class="welcome-img">
 
 ## Cybersecurity & Technology
 
