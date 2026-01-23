@@ -3,53 +3,45 @@
   --text: #c7f5c7;
   --muted: #86c986;
   --link: #4cff4c;
-  --link-hover: #a8ffa8;
-  --border: rgba(199, 245, 199, 0.18);
+  --border: rgba(199,245,199,.18);
 }
 
-html, body {
+/* Hard override: background + font everywhere */
+html, body, header, footer, main, .site-header, .site-footer, .page-content, .wrapper {
   background: var(--bg) !important;
   color: var(--text) !important;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
-  line-height: 1.6;
 }
 
-a {
-  color: var(--link) !important;
-  text-decoration: none;
-}
-a:hover {
-  color: var(--link-hover) !important;
-  text-decoration: underline;
+/* Clean readable center column */
+.wrapper, .page-content, main {
+  max-width: 960px !important;
+  margin: 0 auto !important;
+  padding: 24px !important;
 }
 
-h1, h2, h3 {
-  color: #e6ffe6 !important;
-  letter-spacing: 0.2px;
-}
+/* Links */
+a { color: var(--link) !important; text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-small, .post-meta, .site-description {
-  color: var(--muted) !important;
-}
+/* Headings */
+h1, h2, h3 { color: #e6ffe6 !important; }
 
-/* Make content readable + centered */
-.wrapper, .page-content, .post, main {
-  max-width: 900px;
-}
+/* Subtle muted text */
+small, .post-meta, .site-description { color: var(--muted) !important; }
 
-/* Code blocks */
+/* Remove “card/box” vibes if theme adds them */
 pre, code {
-  background: rgba(199, 245, 199, 0.06) !important;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background: rgba(199,245,199,.06) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 8px !important;
 }
-pre {
-  padding: 12px;
-  overflow-x: auto;
-}
+pre { padding: 12px !important; overflow-x: auto; }
 
-/* Subtle separators */
-hr {
-  border: 0;
-  border-top: 1px solid var(--border);
+hr { border: 0; border-top: 1px solid var(--border) !important; }
+
+/* Optional: subtle terminal “frame” */
+main {
+  border: 1px solid var(--border) !important;
+  border-radius: 12px !important;
 }
