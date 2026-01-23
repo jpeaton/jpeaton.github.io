@@ -39,3 +39,36 @@ pre, code {
 }
 pre { padding: 12px; overflow-x: auto; }
 hr { border: 0; border-top: 1px solid var(--border); }
+
+/* ===== Force consistent "hacker green" ===== */
+:root {
+  --hacker: #39ff14; /* classic bright green */
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.site-title, .post-title, .page-heading {
+  color: var(--hacker) !important;
+}
+
+/* Nav / header links */
+.site-nav a,
+.site-header a,
+.site-title a,
+.page-link {
+  color: var(--hacker) !important;
+}
+
+/* Stop visited links from turning lighter/purple */
+a:visited,
+.site-nav a:visited,
+.page-link:visited {
+  color: var(--hacker) !important;
+}
+
+/* Optional: make hover slightly softer (still green) */
+a:hover,
+.site-nav a:hover,
+.page-link:hover {
+  color: #a8ffa8 !important;
+}
