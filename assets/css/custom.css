@@ -1,3 +1,5 @@
+/* ===== Terminal theme override for Minima ===== */
+
 :root {
   --bg: #050805;
   --text: #c7f5c7;
@@ -6,42 +8,75 @@
   --border: rgba(199,245,199,.18);
 }
 
-/* Hard override: background + font everywhere */
-html, body, header, footer, main, .site-header, .site-footer, .page-content, .wrapper {
+/* Kill Minima’s white backgrounds everywhere */
+html,
+body,
+.site-header,
+.site-footer,
+.page-content,
+.wrapper,
+main {
   background: var(--bg) !important;
   color: var(--text) !important;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }
 
-/* Clean readable center column */
-.wrapper, .page-content, main {
-  max-width: 960px !important;
-  margin: 0 auto !important;
-  padding: 24px !important;
+/* Terminal font everywhere */
+* {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace !important;
+}
+
+/* Layout: centered terminal pane */
+.page-content {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 32px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+/* Header + footer minimal */
+.site-header,
+.site-footer {
+  border: none !important;
+  padding: 16px 0;
 }
 
 /* Links */
-a { color: var(--link) !important; text-decoration: none; }
-a:hover { text-decoration: underline; }
+a {
+  color: var(--link) !important;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
 
 /* Headings */
-h1, h2, h3 { color: #e6ffe6 !important; }
-
-/* Subtle muted text */
-small, .post-meta, .site-description { color: var(--muted) !important; }
-
-/* Remove “card/box” vibes if theme adds them */
-pre, code {
-  background: rgba(199,245,199,.06) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: 8px !important;
+h1, h2, h3 {
+  color: #e6ffe6 !important;
 }
-pre { padding: 12px !important; overflow-x: auto; }
 
-hr { border: 0; border-top: 1px solid var(--border) !important; }
+/* Muted metadata */
+small,
+.post-meta,
+.site-description {
+  color: var(--muted) !important;
+}
 
-/* Optional: subtle terminal “frame” */
-main {
-  border: 1px solid var(--border) !important;
-  border-radius: 12px !important;
+/* Code blocks */
+pre,
+code {
+  background: rgba(199,245,199,.06) !important;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+pre {
+  padding: 12px;
+  overflow-x: auto;
+}
+
+/* Remove Minima hr styling */
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
 }
