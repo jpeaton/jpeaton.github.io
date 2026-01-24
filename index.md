@@ -1,4 +1,4 @@
-# ./run_website_for_jeremiah.sh
+# ./run_website.sh
 
 # Happy New Year, World!
 
