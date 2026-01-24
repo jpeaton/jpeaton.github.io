@@ -144,27 +144,69 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // If this text node lived in the first H1 on the homepage, do the "command executing" pause once
     if (isHome && !didCommandPause && parentEl && parentEl.tagName === "H1") {
-    didCommandPause = true;
-    isLoadingPhase = true;
-    cursor.classList.add("idle");
-  
-    // Start fake loading sequence
-    function runLoading() {
-      if (loadingIndex >= loadingLines.length) {
-        isLoadingPhase = false;
-        setTimeout(typeNextChar, 400);
-        return;
-      }
+  didCommandPause = true;
 
-      typeLoadingLine(loadingLines[loadingIndex], () => {
-        loadingIndex++;
-        runLoading();
-      });
+  // Create a loading area right after the first H1 (so it appears near the top)
+  const h1 = parentEl;
+  const loadingArea = document.createElement("div");
+  loadingArea.id = "loading-area";
+  h1.insertAdjacentElement("afterend", loadingArea);
+
+  const loadingLines = [
+    "[✓] initializing environment",
+    "[✓] loading configuration",
+    "[✓] mounting filesystem",
+    "[✓] starting services",
+    "[✓] ready"
+  ];
+
+  const LINE_CHAR_DELAY_MS = 18;   // typing speed for loading lines
+  const LINE_PAUSE_MS = 450;       // pause between loading lines
+  const FINAL_PAUSE_MS = 800;      // pause after "ready" before rest of page continues
+
+  // Types a single loading line using a TEXT NODE (avoids cursor getting baked into text)
+  function typeLoadingLine(line, done) {
+    const lineEl = document.createElement("div");
+    const textNode = document.createTextNode("");
+    lineEl.appendChild(textNode);
+    loadingArea.appendChild(lineEl);
+
+    let i = 0;
+    cursor.classList.remove("idle");
+
+    function step() {
+      if (i < line.length) {
+        textNode.nodeValue += line[i];
+        // Keep cursor at the true insertion point
+        lineEl.appendChild(cursor);
+        i++;
+        setTimeout(step, LINE_CHAR_DELAY_MS);
+      } else {
+        cursor.classList.add("idle");
+        setTimeout(done, LINE_PAUSE_MS);
+      }
     }
 
-    setTimeout(runLoading, 600);
-    return;
+    step();
   }
+
+  // Run all loading lines (~5 seconds total depending on delays)
+  let idx = 0;
+  cursor.classList.add("idle");
+
+  setTimeout(function run() {
+    if (idx >= loadingLines.length) {
+      setTimeout(typeNextChar, FINAL_PAUSE_MS);
+      return;
+    }
+    typeLoadingLine(loadingLines[idx], () => {
+      idx++;
+      run();
+    });
+  }, 600);
+
+  return;
+}
 
     cursor.classList.add("idle");
     setTimeout(typeNextChar, NODE_PAUSE_MS);
