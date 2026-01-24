@@ -77,6 +77,44 @@ document.addEventListener("DOMContentLoaded", () => {
   // We'll detect that by checking the first time we finish typing inside an H1.
   let didCommandPause = false;
 
+  // Fake loading output (homepage only)
+  const loadingLines = [
+    "[✓] initializing environment",
+    "[✓] loading configuration",
+    "[✓] mounting filesystem",
+    "[✓] starting services",
+    "[✓] ready"
+  ];
+
+  let isLoadingPhase = false;
+  let loadingIndex = 0;
+
+  // Create a loading container
+  const loadingBlock = document.createElement("div");
+  loadingBlock.className = "loading-block";
+
+  function typeLoadingLine(text, callback) {
+  const lineEl = document.createElement("div");
+  container.appendChild(lineEl);
+
+  let i = 0;
+  cursor.classList.remove("idle");
+
+  function step() {
+    if (i < text.length) {
+      lineEl.textContent += text[i];
+      moveCursorToNode(lineEl.firstChild || lineEl);
+      i++;
+      setTimeout(step, 20);
+    } else {
+      cursor.classList.add("idle");
+      setTimeout(callback, 350);
+    }
+  }
+
+  step();
+}
+    
   function typeNextChar() {
     if (nodeIndex >= nodes.length) {
       cursor.classList.add("idle");
@@ -106,11 +144,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // If this text node lived in the first H1 on the homepage, do the "command executing" pause once
     if (isHome && !didCommandPause && parentEl && parentEl.tagName === "H1") {
-      didCommandPause = true;
-      cursor.classList.add("idle"); // blink while "running"
-      setTimeout(typeNextChar, COMMAND_PAUSE_MS);
-      return;
+    didCommandPause = true;
+    isLoadingPhase = true;
+    cursor.classList.add("idle");
+  
+    // Start fake loading sequence
+    function runLoading() {
+      if (loadingIndex >= loadingLines.length) {
+        isLoadingPhase = false;
+        setTimeout(typeNextChar, 400);
+        return;
+      }
+
+      typeLoadingLine(loadingLines[loadingIndex], () => {
+        loadingIndex++;
+        runLoading();
+      });
     }
+
+    setTimeout(runLoading, 600);
+    return;
+  }
 
     cursor.classList.add("idle");
     setTimeout(typeNextChar, NODE_PAUSE_MS);
