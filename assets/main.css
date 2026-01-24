@@ -36,6 +36,11 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.loading-block div {
+  color: var(--green);
+  margin-left: 0;
+  line-height: 1.4;
+}
 /* Centered terminal container */
 .terminal {
   max-width: 900px;
