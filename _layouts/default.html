@@ -57,18 +57,57 @@
         // Save originals and clear text
         const originals = nodes.map(node => node.nodeValue);
         nodes.forEach(node => (node.nodeValue = ""));
+        // Hide elements that would otherwise appear before their text types
+        const hideSelectors = "img, ul, ol, li, h1, h2, h3, h4, h5, h6, p, blockquote";
+        const hideEls = Array.from(container.querySelectorAll(hideSelectors));
+        
+        // Hide them all initially (blank screen)
+        hideEls.forEach(el => el.classList.add("hidden-until-typed"));
+        
+        // Sort hidden elements in DOM order so we can reveal progressively
+        hideEls.sort((a, b) => {
+          if (a === b) return 0;
+          const pos = a.compareDocumentPosition(b);
+          return (pos & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+        });
+        
+        let revealIndex = 0;
+        
+        // Reveal all hidden elements that come before (or are) the current element
+        function revealUpTo(currentEl) {
+          while (revealIndex < hideEls.length) {
+            const el = hideEls[revealIndex];
+            // If el is before currentEl or is currentEl, reveal it
+            const pos = el.compareDocumentPosition(currentEl);
+        
+            const elBeforeCurrent =
+              (pos & Node.DOCUMENT_POSITION_FOLLOWING) === 0 && el !== currentEl
+                ? false
+                : (pos & Node.DOCUMENT_POSITION_FOLLOWING) !== 0 || el === currentEl;
+        
+            // Simpler: reveal until we reach currentEl in order
+            el.classList.remove("hidden-until-typed");
+            el.classList.add("revealed");
+            revealIndex++;
+        
+            if (el === currentEl) break;
+          }
+        }
         if (nodes.length > 0 && nodes[0].parentElement) {
         nodes[0].parentElement.appendChild(cursor);
         }
       
         // Helper: move cursor to "insertion point" after a specific text node
         function moveCursorToNode(node) {
-        const el = node.parentElement;
-        if (!el) return;
-      
-        // Always keep cursor as the last child of the element being typed
-        el.appendChild(cursor);
-      }
+          const el = node.parentElement;
+          if (!el) return;
+        
+          // Reveal elements up to this one (so images/lists above it appear at the right time)
+          revealUpTo(el);
+        
+          // Keep cursor at the end of the currently-typing element
+          el.appendChild(cursor);
+        }
       
         let nodeIndex = 0;
         let charIndex = 0;
