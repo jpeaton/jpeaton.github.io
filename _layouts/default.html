@@ -17,27 +17,33 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const container = document.querySelector("main.terminal");
-        container.classList.add("boot");
         if (!container) return;
       
         // Respect reduced motion
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       
-        // Only do the special "command + pause" on the homepage
-        const isHome = window.location.pathname === "/" || window.location.pathname.endsWith("/index.html");
+        container.classList.add("boot");
+      
+        const isHome =
+          window.location.pathname === "/" ||
+          window.location.pathname.endsWith("/index.html");
       
         // Speeds
-        const CHAR_DELAY_MS = 6;        // typing speed
-        const NODE_PAUSE_MS = 40;       // pause between text nodes
-        const COMMAND_PAUSE_MS = 450;   // pause after command finishes typing
+        const CHAR_DELAY_MS = 8;
+        const NODE_PAUSE_MS = 50;
       
-        // Create ONE cursor for the whole page
+        // One cursor for the whole page
         const cursor = document.createElement("span");
         cursor.id = "term-cursor";
         cursor.classList.add("idle");
-        cursor.textContent = "█"; // block is via background
+        cursor.textContent = "█";
       
-        // Collect all text nodes (skip code/pre)
+        // Hide “block-ish” elements so they don’t pop in before typing reaches them
+        const hideSelectors = "img, ul, ol, li, h1, h2, h3, h4, h5, h6, p, blockquote";
+        const hideEls = Array.from(container.querySelectorAll(hideSelectors));
+        hideEls.forEach(el => el.classList.add("hidden-until-typed"));
+      
+        // Collect text nodes (skip pre/code)
         const walker = document.createTreeWalker(
           container,
           NodeFilter.SHOW_TEXT,
@@ -52,145 +58,106 @@
         );
       
         const nodes = [];
-        let n;
-        while ((n = walker.nextNode())) nodes.push(n);
+        let node;
+        while ((node = walker.nextNode())) nodes.push(node);
       
-        // Save originals and clear text
-        const originals = nodes.map(node => node.nodeValue);
-        nodes.forEach(node => (node.nodeValue = ""));
-        // Hide elements that would otherwise appear before their text types
-        const hideSelectors = "img, ul, ol, li, h1, h2, h3, h4, h5, h6, p, blockquote";
-        const hideEls = Array.from(container.querySelectorAll(hideSelectors));
-        
-        // Hide them all initially (blank screen)
-        hideEls.forEach(el => el.classList.add("hidden-until-typed"));
-        
-        // Sort hidden elements in DOM order so we can reveal progressively
-        hideEls.sort((a, b) => {
-          if (a === b) return 0;
-          const pos = a.compareDocumentPosition(b);
-          return (pos & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
-        });
-        
-        let revealIndex = 0;
-        
-        // Reveal all hidden elements that come before (or are) the current element
-        function revealUpTo(currentEl) {
-          while (revealIndex < hideEls.length) {
-            const el = hideEls[revealIndex];
-            // If el is before currentEl or is currentEl, reveal it
-            const pos = el.compareDocumentPosition(currentEl);
-        
-            const elBeforeCurrent =
-              (pos & Node.DOCUMENT_POSITION_FOLLOWING) === 0 && el !== currentEl
-                ? false
-                : (pos & Node.DOCUMENT_POSITION_FOLLOWING) !== 0 || el === currentEl;
-        
-            // Simpler: reveal until we reach currentEl in order
-            el.classList.remove("hidden-until-typed");
-            el.classList.add("revealed");
-            revealIndex++;
-        
-            if (el === currentEl) break;
-          }
-        }
-        if (nodes.length > 0 && nodes[0].parentElement) {
-        nodes[0].parentElement.appendChild(cursor);
-        }
+        const originals = nodes.map(n => n.nodeValue);
+        nodes.forEach(n => (n.nodeValue = ""));
       
-        // Helper: move cursor to "insertion point" after a specific text node
-       function getRevealTarget(node) {
-          const el = node.parentElement;
-          if (!el) return null;
-        
-          // Reveal at a "block-ish" level so bullets/images in that section appear at the right time
-          return el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote, ul, ol, figure") || el;
-        }
-        
-        function moveCursorToNode(node) {
-          const textParent = node.parentElement;
-          if (!textParent) return;
-        
-          const revealTarget = getRevealTarget(node);
-          if (revealTarget) revealTarget.classList.add("revealed");
-        
-          // Also reveal any images inside the revealed block (so they don't show early)
-          if (revealTarget) {
-            revealTarget.querySelectorAll("img").forEach(img => img.classList.add("revealed"));
-          }
-        
-          // Cursor should live at the true insertion point: end of the element being typed into
-          textParent.appendChild(cursor);
-        }
-        
-          // Reveal elements up to this one (so images/lists above it appear at the right time)
-          revealUpTo(el);
-        
-          // Keep cursor at the end of the currently-typing element
+        function revealBlockForTextNode(textNode) {
+          const el = textNode.parentElement;
+          if (!el) return;
+      
+          const block =
+            el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote, ul, ol, figure") || el;
+      
+          block.classList.remove("hidden-until-typed");
+          block.classList.add("revealed");
+      
+          // also reveal images inside that block
+          block.querySelectorAll("img").forEach(img => {
+            img.classList.remove("hidden-until-typed");
+            img.classList.add("revealed");
+          });
+      
+          // keep cursor at end of current typing element
           el.appendChild(cursor);
         }
       
+        // Put cursor somewhere visible immediately
+        container.prepend(cursor);
+      
         let nodeIndex = 0;
         let charIndex = 0;
+        let didHomePause = false;
       
-        // We pause after the first H1 on homepage (your "./run_website_for_jeremiah.sh")
-        // We'll detect that by checking the first time we finish typing inside an H1.
-        let didCommandPause = false;
+        function runHomeLoadingBlock(afterEl, done) {
+          const loadingArea = document.createElement("div");
+          loadingArea.id = "loading-area";
+          afterEl.insertAdjacentElement("afterend", loadingArea);
       
-        // Fake loading output (homepage only)
-        const loadingLines = [
-          "[✓] initializing environment",
-          "[✓] loading configuration",
-          "[✓] mounting filesystem",
-          "[✓] starting services",
-          "[✓] ready"
-        ];
+          const lines = [
+            "[✓] initializing",
+            "[✓] reading the room",
+            "[✓] adjusting accordingly",
+            "[✓] locked in",
+            "[✓] we’re so back"
+          ];
       
-        let isLoadingPhase = false;
-        let loadingIndex = 0;
+          const LINE_CHAR_DELAY_MS = 18;
+          const LINE_PAUSE_MS = 350;
+          const FINAL_PAUSE_MS = 600;
       
-        // Create a loading container
-        const loadingBlock = document.createElement("div");
-        loadingBlock.className = "loading-block";
+          let i = 0;
       
-        function typeLoadingLine(text, callback) {
-        const lineEl = document.createElement("div");
-        container.appendChild(lineEl);
+          function typeLine(line, cb) {
+            const lineEl = document.createElement("div");
+            const t = document.createTextNode("");
+            lineEl.appendChild(t);
+            loadingArea.appendChild(lineEl);
       
-        let i = 0;
-        cursor.classList.remove("idle");
+            let k = 0;
+            cursor.classList.remove("idle");
       
-        function step() {
-          if (i < text.length) {
-            lineEl.textContent += text[i];
-            moveCursorToNode(lineEl.firstChild || lineEl);
-            i++;
-            setTimeout(step, 20);
-          } else {
-            cursor.classList.add("idle");
-            setTimeout(callback, 350);
+            function step() {
+              if (k < line.length) {
+                t.nodeValue += line[k++];
+                lineEl.appendChild(cursor);
+                setTimeout(step, LINE_CHAR_DELAY_MS);
+              } else {
+                cursor.classList.add("idle");
+                setTimeout(cb, LINE_PAUSE_MS);
+              }
+            }
+            step();
           }
+      
+          (function next() {
+            if (i >= lines.length) {
+              setTimeout(done, FINAL_PAUSE_MS);
+              return;
+            }
+            typeLine(lines[i++], next);
+          })();
         }
       
-        step();
-      }
-          
         function typeNextChar() {
           if (nodeIndex >= nodes.length) {
+            container.classList.remove("boot");
             cursor.classList.add("idle");
             return;
           }
       
-          cursor.classList.remove("idle"); // solid while actively typing
+          cursor.classList.remove("idle");
       
-          const node = nodes[nodeIndex];
+          const n = nodes[nodeIndex];
           const full = originals[nodeIndex];
       
-          node.nodeValue = full.slice(0, charIndex + 1);
-          moveCursorToNode(node);
-
+          n.nodeValue = full.slice(0, charIndex + 1);
+          revealBlockForTextNode(n);
+      
           container.classList.remove("boot");
-          
+      
           charIndex++;
       
           if (charIndex < full.length) {
@@ -198,84 +165,24 @@
             return;
           }
       
-          // Finished this node
-          const parentEl = node.parentElement;
+          // finished this text node
+          const parentEl = n.parentElement;
       
           nodeIndex++;
           charIndex = 0;
       
-          // If this text node lived in the first H1 on the homepage, do the "command executing" pause once
-          if (isHome && !didCommandPause && parentEl && parentEl.tagName === "H1") {
-        didCommandPause = true;
-      
-        // Create a loading area right after the first H1 (so it appears near the top)
-        const h1 = parentEl;
-        const loadingArea = document.createElement("div");
-        loadingArea.id = "loading-area";
-        h1.insertAdjacentElement("afterend", loadingArea);
-      
-        const loadingLines = [
-          "[✓] initializing",
-          "[✓] sitting upright",
-          "[✓] tightening facial expression",
-          "[✓] locked in",
-          "[✓] we're so back"
-        ];
-      
-        const LINE_CHAR_DELAY_MS = 18;   // typing speed for loading lines
-        const LINE_PAUSE_MS = 450;       // pause between loading lines
-        const FINAL_PAUSE_MS = 800;      // pause after "ready" before rest of page continues
-      
-        // Types a single loading line using a TEXT NODE (avoids cursor getting baked into text)
-        function typeLoadingLine(line, done) {
-          const lineEl = document.createElement("div");
-          const textNode = document.createTextNode("");
-          lineEl.appendChild(textNode);
-          loadingArea.appendChild(lineEl);
-      
-          let i = 0;
-          cursor.classList.remove("idle");
-      
-          function step() {
-            if (i < line.length) {
-              textNode.nodeValue += line[i];
-              // Keep cursor at the true insertion point
-              lineEl.appendChild(cursor);
-              i++;
-              setTimeout(step, LINE_CHAR_DELAY_MS);
-            } else {
-              cursor.classList.add("idle");
-              setTimeout(done, LINE_PAUSE_MS);
-            }
-          }
-      
-          step();
-        }
-      
-        // Run all loading lines (~5 seconds total depending on delays)
-        let idx = 0;
-        cursor.classList.add("idle");
-      
-        setTimeout(function run() {
-          if (idx >= loadingLines.length) {
-            setTimeout(typeNextChar, FINAL_PAUSE_MS);
+          // Do the home “pause + loading” once, right after the first H1 finishes
+          if (isHome && !didHomePause && parentEl && parentEl.tagName === "H1") {
+            didHomePause = true;
+            cursor.classList.add("idle");
+            runHomeLoadingBlock(parentEl, () => setTimeout(typeNextChar, NODE_PAUSE_MS));
             return;
           }
-          typeLoadingLine(loadingLines[idx], () => {
-            idx++;
-            run();
-          });
-        }, 600);
-      
-        return;
-      }
       
           cursor.classList.add("idle");
           setTimeout(typeNextChar, NODE_PAUSE_MS);
         }
       
-        // Start with cursor at top
-        cursor.classList.add("idle");
         typeNextChar();
       });
   </script>
