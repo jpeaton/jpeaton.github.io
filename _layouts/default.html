@@ -17,6 +17,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const container = document.querySelector("main.terminal");
+        container.classList.add("boot");
         if (!container) return;
       
         // Respect reduced motion
@@ -98,9 +99,29 @@
         }
       
         // Helper: move cursor to "insertion point" after a specific text node
-        function moveCursorToNode(node) {
+       function getRevealTarget(node) {
           const el = node.parentElement;
-          if (!el) return;
+          if (!el) return null;
+        
+          // Reveal at a "block-ish" level so bullets/images in that section appear at the right time
+          return el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote, ul, ol, figure") || el;
+        }
+        
+        function moveCursorToNode(node) {
+          const textParent = node.parentElement;
+          if (!textParent) return;
+        
+          const revealTarget = getRevealTarget(node);
+          if (revealTarget) revealTarget.classList.add("revealed");
+        
+          // Also reveal any images inside the revealed block (so they don't show early)
+          if (revealTarget) {
+            revealTarget.querySelectorAll("img").forEach(img => img.classList.add("revealed"));
+          }
+        
+          // Cursor should live at the true insertion point: end of the element being typed into
+          textParent.appendChild(cursor);
+        }
         
           // Reveal elements up to this one (so images/lists above it appear at the right time)
           revealUpTo(el);
@@ -167,7 +188,9 @@
       
           node.nodeValue = full.slice(0, charIndex + 1);
           moveCursorToNode(node);
-      
+
+          container.classList.remove("boot");
+          
           charIndex++;
       
           if (charIndex < full.length) {
