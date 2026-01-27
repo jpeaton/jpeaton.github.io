@@ -104,10 +104,22 @@ p {
   line-height: 1.55;
 }
 
-/* Make headers feel like shell prompts */
+/* Make headers feel like shell prompts, but load after cursor passes */
 h1::before,
 h2::before,
-h3::before {
+h3::before,
+h4::before,
+h5::before,
+h6::before {
+  content: "";
+}
+
+h1.revealed::before,
+h2.revealed::before,
+h3.revealed::before,
+h4.revealed::before,
+h5.revealed::before,
+h6.revealed::before {
   content: "> ";
   color: var(--green);
 }
@@ -134,4 +146,25 @@ h3::before {
 @keyframes termBlink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+/* Hide elements until JS reveals them */
+.hidden-until-typed {
+  visibility: hidden;
+}
+
+/* Remove default bullets (they show too early) */
+ul, ol {
+  list-style: none;
+  padding-left: 1.2em; /* keeps indentation */
+}
+
+/* Add terminal bullets only when LI is revealed */
+li::before {
+  content: "";
+}
+
+li.revealed::before {
+  content: "• ";
+  color: var(--green);
 }
