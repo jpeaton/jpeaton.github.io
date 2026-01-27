@@ -39,7 +39,7 @@
         cursor.textContent = "█";
       
         // Hide “block-ish” elements so they don’t pop in before typing reaches them
-        const hideSelectors = "img, ul, ol, li, h1, h2, h3, h4, h5, h6, p, blockquote, a, nav, .quick-links";
+        const hideSelectors = "img, p, blockquote, h1, h2, h3, h4, h5, h6";
         const hideEls = Array.from(container.querySelectorAll(hideSelectors));
         hideEls.forEach(el => el.classList.add("hidden-until-typed"));
 
@@ -85,21 +85,21 @@
         function revealBlockForTextNode(textNode) {
           const el = textNode.parentElement;
           if (!el) return;
-      
+        
           const block =
-            el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote, ul, ol, figure, nav") || el;
-
-          revealUpTo(block);
+            el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote") || el;
+        
+          // Reveal ONLY the current block
           block.classList.remove("hidden-until-typed");
           block.classList.add("revealed");
-      
-          // also reveal images inside that block
+        
+          // If the block contains an image, reveal it when this block is reached
           block.querySelectorAll("img").forEach(img => {
             img.classList.remove("hidden-until-typed");
             img.classList.add("revealed");
           });
-      
-          // keep cursor at end of current typing element
+        
+          // Keep cursor at the real insertion point
           el.appendChild(cursor);
         }
       
