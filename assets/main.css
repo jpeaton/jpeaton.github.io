@@ -121,7 +121,6 @@ h4.revealed::before,
 h5.revealed::before,
 h6.revealed::before {
   content: "> ";
-  color: var(--green);
 }
 
 /* Blinking terminal cursor - UNUSED NOW */
@@ -166,7 +165,6 @@ li::before {
 
 li.revealed::before {
   content: "• ";
-  color: var(--green);
 }
 
 /* Boot mode: NOTHING visible until revealed */
