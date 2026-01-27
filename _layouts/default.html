@@ -39,10 +39,28 @@
         cursor.textContent = "█";
       
         // Hide “block-ish” elements so they don’t pop in before typing reaches them
-        const hideSelectors = "img, ul, ol, li, h1, h2, h3, h4, h5, h6, p, blockquote";
+        const hideSelectors = "img, ul, ol, li, h1, h2, h3, h4, h5, h6, p, blockquote, a, nav, .quick-links";
         const hideEls = Array.from(container.querySelectorAll(hideSelectors));
         hideEls.forEach(el => el.classList.add("hidden-until-typed"));
-      
+
+        hideEls.sort((a, b) => {
+          if (a === b) return 0;
+          const pos = a.compareDocumentPosition(b);
+          return (pos & Node.DOCUMENT_POSITION_FOLLOWING) ? -1 : 1;
+        });
+        
+        let revealIndex = 0;
+        
+        function revealUpTo(targetEl) {
+          while (revealIndex < hideEls.length) {
+            const el = hideEls[revealIndex];
+            el.classList.remove("hidden-until-typed");
+            el.classList.add("revealed");
+            revealIndex++;
+            if (el === targetEl) break;
+          }
+        }
+        
         // Collect text nodes (skip pre/code)
         const walker = document.createTreeWalker(
           container,
@@ -69,8 +87,9 @@
           if (!el) return;
       
           const block =
-            el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote, ul, ol, figure") || el;
-      
+            el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote, ul, ol, figure, nav") || el;
+
+          revealUpTo(block);
           block.classList.remove("hidden-until-typed");
           block.classList.add("revealed");
       
@@ -145,6 +164,13 @@
           if (nodeIndex >= nodes.length) {
             container.classList.remove("boot");
             cursor.classList.add("idle");
+
+            // reveal whatever never got triggered
+            hideEls.forEach(el => {
+              el.classList.remove("hidden-until-typed");
+              el.classList.add("revealed");
+            });
+            
             return;
           }
       
