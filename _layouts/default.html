@@ -15,207 +15,207 @@
       {{ content }}
     </main>
     <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.querySelector("main.terminal");
-  if (!container) return;
-
-  // Respect reduced motion
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-  // Only do the special "command + pause" on the homepage
-  const isHome = window.location.pathname === "/" || window.location.pathname.endsWith("/index.html");
-
-  // Speeds
-  const CHAR_DELAY_MS = 6;        // typing speed
-  const NODE_PAUSE_MS = 40;       // pause between text nodes
-  const COMMAND_PAUSE_MS = 450;   // pause after command finishes typing
-
-  // Create ONE cursor for the whole page
-  const cursor = document.createElement("span");
-  cursor.id = "term-cursor";
-  cursor.classList.add("idle");
-  cursor.textContent = "█"; // block is via background
-
-  // Collect all text nodes (skip code/pre)
-  const walker = document.createTreeWalker(
-    container,
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node) {
-        if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-        const parent = node.parentElement;
-        if (parent && (parent.closest("pre") || parent.closest("code"))) return NodeFilter.FILTER_REJECT;
-        return NodeFilter.FILTER_ACCEPT;
-      }
-    }
-  );
-
-  const nodes = [];
-  let n;
-  while ((n = walker.nextNode())) nodes.push(n);
-
-  // Save originals and clear text
-  const originals = nodes.map(node => node.nodeValue);
-  nodes.forEach(node => (node.nodeValue = ""));
-  if (nodes.length > 0 && nodes[0].parentElement) {
-  nodes[0].parentElement.appendChild(cursor);
-  }
-
-  // Helper: move cursor to "insertion point" after a specific text node
-  function moveCursorToNode(node) {
-  const el = node.parentElement;
-  if (!el) return;
-
-  // Always keep cursor as the last child of the element being typed
-  el.appendChild(cursor);
-}
-
-  let nodeIndex = 0;
-  let charIndex = 0;
-
-  // We pause after the first H1 on homepage (your "./run_website_for_jeremiah.sh")
-  // We'll detect that by checking the first time we finish typing inside an H1.
-  let didCommandPause = false;
-
-  // Fake loading output (homepage only)
-  const loadingLines = [
-    "[✓] initializing environment",
-    "[✓] loading configuration",
-    "[✓] mounting filesystem",
-    "[✓] starting services",
-    "[✓] ready"
-  ];
-
-  let isLoadingPhase = false;
-  let loadingIndex = 0;
-
-  // Create a loading container
-  const loadingBlock = document.createElement("div");
-  loadingBlock.className = "loading-block";
-
-  function typeLoadingLine(text, callback) {
-  const lineEl = document.createElement("div");
-  container.appendChild(lineEl);
-
-  let i = 0;
-  cursor.classList.remove("idle");
-
-  function step() {
-    if (i < text.length) {
-      lineEl.textContent += text[i];
-      moveCursorToNode(lineEl.firstChild || lineEl);
-      i++;
-      setTimeout(step, 20);
-    } else {
-      cursor.classList.add("idle");
-      setTimeout(callback, 350);
-    }
-  }
-
-  step();
-}
-    
-  function typeNextChar() {
-    if (nodeIndex >= nodes.length) {
-      cursor.classList.add("idle");
-      return;
-    }
-
-    cursor.classList.remove("idle"); // solid while actively typing
-
-    const node = nodes[nodeIndex];
-    const full = originals[nodeIndex];
-
-    node.nodeValue = full.slice(0, charIndex + 1);
-    moveCursorToNode(node);
-
-    charIndex++;
-
-    if (charIndex < full.length) {
-      setTimeout(typeNextChar, CHAR_DELAY_MS);
-      return;
-    }
-
-    // Finished this node
-    const parentEl = node.parentElement;
-
-    nodeIndex++;
-    charIndex = 0;
-
-    // If this text node lived in the first H1 on the homepage, do the "command executing" pause once
-    if (isHome && !didCommandPause && parentEl && parentEl.tagName === "H1") {
-  didCommandPause = true;
-
-  // Create a loading area right after the first H1 (so it appears near the top)
-  const h1 = parentEl;
-  const loadingArea = document.createElement("div");
-  loadingArea.id = "loading-area";
-  h1.insertAdjacentElement("afterend", loadingArea);
-
-  const loadingLines = [
-    "[✓] initializing environment",
-    "[✓] loading configuration",
-    "[✓] mounting filesystem",
-    "[✓] starting services",
-    "[✓] ready"
-  ];
-
-  const LINE_CHAR_DELAY_MS = 18;   // typing speed for loading lines
-  const LINE_PAUSE_MS = 450;       // pause between loading lines
-  const FINAL_PAUSE_MS = 800;      // pause after "ready" before rest of page continues
-
-  // Types a single loading line using a TEXT NODE (avoids cursor getting baked into text)
-  function typeLoadingLine(line, done) {
-    const lineEl = document.createElement("div");
-    const textNode = document.createTextNode("");
-    lineEl.appendChild(textNode);
-    loadingArea.appendChild(lineEl);
-
-    let i = 0;
-    cursor.classList.remove("idle");
-
-    function step() {
-      if (i < line.length) {
-        textNode.nodeValue += line[i];
-        // Keep cursor at the true insertion point
-        lineEl.appendChild(cursor);
-        i++;
-        setTimeout(step, LINE_CHAR_DELAY_MS);
-      } else {
+      document.addEventListener("DOMContentLoaded", () => {
+        const container = document.querySelector("main.terminal");
+        if (!container) return;
+      
+        // Respect reduced motion
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      
+        // Only do the special "command + pause" on the homepage
+        const isHome = window.location.pathname === "/" || window.location.pathname.endsWith("/index.html");
+      
+        // Speeds
+        const CHAR_DELAY_MS = 6;        // typing speed
+        const NODE_PAUSE_MS = 40;       // pause between text nodes
+        const COMMAND_PAUSE_MS = 450;   // pause after command finishes typing
+      
+        // Create ONE cursor for the whole page
+        const cursor = document.createElement("span");
+        cursor.id = "term-cursor";
         cursor.classList.add("idle");
-        setTimeout(done, LINE_PAUSE_MS);
+        cursor.textContent = "█"; // block is via background
+      
+        // Collect all text nodes (skip code/pre)
+        const walker = document.createTreeWalker(
+          container,
+          NodeFilter.SHOW_TEXT,
+          {
+            acceptNode(node) {
+              if (!node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+              const parent = node.parentElement;
+              if (parent && (parent.closest("pre") || parent.closest("code"))) return NodeFilter.FILTER_REJECT;
+              return NodeFilter.FILTER_ACCEPT;
+            }
+          }
+        );
+      
+        const nodes = [];
+        let n;
+        while ((n = walker.nextNode())) nodes.push(n);
+      
+        // Save originals and clear text
+        const originals = nodes.map(node => node.nodeValue);
+        nodes.forEach(node => (node.nodeValue = ""));
+        if (nodes.length > 0 && nodes[0].parentElement) {
+        nodes[0].parentElement.appendChild(cursor);
+        }
+      
+        // Helper: move cursor to "insertion point" after a specific text node
+        function moveCursorToNode(node) {
+        const el = node.parentElement;
+        if (!el) return;
+      
+        // Always keep cursor as the last child of the element being typed
+        el.appendChild(cursor);
       }
-    }
-
-    step();
-  }
-
-  // Run all loading lines (~5 seconds total depending on delays)
-  let idx = 0;
-  cursor.classList.add("idle");
-
-  setTimeout(function run() {
-    if (idx >= loadingLines.length) {
-      setTimeout(typeNextChar, FINAL_PAUSE_MS);
-      return;
-    }
-    typeLoadingLine(loadingLines[idx], () => {
-      idx++;
-      run();
-    });
-  }, 600);
-
-  return;
-}
-
-    cursor.classList.add("idle");
-    setTimeout(typeNextChar, NODE_PAUSE_MS);
-  }
-
-  // Start with cursor at top
-  cursor.classList.add("idle");
-  typeNextChar();
-});
+      
+        let nodeIndex = 0;
+        let charIndex = 0;
+      
+        // We pause after the first H1 on homepage (your "./run_website_for_jeremiah.sh")
+        // We'll detect that by checking the first time we finish typing inside an H1.
+        let didCommandPause = false;
+      
+        // Fake loading output (homepage only)
+        const loadingLines = [
+          "[✓] initializing environment",
+          "[✓] loading configuration",
+          "[✓] mounting filesystem",
+          "[✓] starting services",
+          "[✓] ready"
+        ];
+      
+        let isLoadingPhase = false;
+        let loadingIndex = 0;
+      
+        // Create a loading container
+        const loadingBlock = document.createElement("div");
+        loadingBlock.className = "loading-block";
+      
+        function typeLoadingLine(text, callback) {
+        const lineEl = document.createElement("div");
+        container.appendChild(lineEl);
+      
+        let i = 0;
+        cursor.classList.remove("idle");
+      
+        function step() {
+          if (i < text.length) {
+            lineEl.textContent += text[i];
+            moveCursorToNode(lineEl.firstChild || lineEl);
+            i++;
+            setTimeout(step, 20);
+          } else {
+            cursor.classList.add("idle");
+            setTimeout(callback, 350);
+          }
+        }
+      
+        step();
+      }
+          
+        function typeNextChar() {
+          if (nodeIndex >= nodes.length) {
+            cursor.classList.add("idle");
+            return;
+          }
+      
+          cursor.classList.remove("idle"); // solid while actively typing
+      
+          const node = nodes[nodeIndex];
+          const full = originals[nodeIndex];
+      
+          node.nodeValue = full.slice(0, charIndex + 1);
+          moveCursorToNode(node);
+      
+          charIndex++;
+      
+          if (charIndex < full.length) {
+            setTimeout(typeNextChar, CHAR_DELAY_MS);
+            return;
+          }
+      
+          // Finished this node
+          const parentEl = node.parentElement;
+      
+          nodeIndex++;
+          charIndex = 0;
+      
+          // If this text node lived in the first H1 on the homepage, do the "command executing" pause once
+          if (isHome && !didCommandPause && parentEl && parentEl.tagName === "H1") {
+        didCommandPause = true;
+      
+        // Create a loading area right after the first H1 (so it appears near the top)
+        const h1 = parentEl;
+        const loadingArea = document.createElement("div");
+        loadingArea.id = "loading-area";
+        h1.insertAdjacentElement("afterend", loadingArea);
+      
+        const loadingLines = [
+          "[✓] making it do the right thing",
+          "[✓] oh god what's happening",
+          "[✓] oh wait nvm",
+          "[✓] haha ok now it's loading",
+          "[✓] we're so back"
+        ];
+      
+        const LINE_CHAR_DELAY_MS = 18;   // typing speed for loading lines
+        const LINE_PAUSE_MS = 450;       // pause between loading lines
+        const FINAL_PAUSE_MS = 800;      // pause after "ready" before rest of page continues
+      
+        // Types a single loading line using a TEXT NODE (avoids cursor getting baked into text)
+        function typeLoadingLine(line, done) {
+          const lineEl = document.createElement("div");
+          const textNode = document.createTextNode("");
+          lineEl.appendChild(textNode);
+          loadingArea.appendChild(lineEl);
+      
+          let i = 0;
+          cursor.classList.remove("idle");
+      
+          function step() {
+            if (i < line.length) {
+              textNode.nodeValue += line[i];
+              // Keep cursor at the true insertion point
+              lineEl.appendChild(cursor);
+              i++;
+              setTimeout(step, LINE_CHAR_DELAY_MS);
+            } else {
+              cursor.classList.add("idle");
+              setTimeout(done, LINE_PAUSE_MS);
+            }
+          }
+      
+          step();
+        }
+      
+        // Run all loading lines (~5 seconds total depending on delays)
+        let idx = 0;
+        cursor.classList.add("idle");
+      
+        setTimeout(function run() {
+          if (idx >= loadingLines.length) {
+            setTimeout(typeNextChar, FINAL_PAUSE_MS);
+            return;
+          }
+          typeLoadingLine(loadingLines[idx], () => {
+            idx++;
+            run();
+          });
+        }, 600);
+      
+        return;
+      }
+      
+          cursor.classList.add("idle");
+          setTimeout(typeNextChar, NODE_PAUSE_MS);
+        }
+      
+        // Start with cursor at top
+        cursor.classList.add("idle");
+        typeNextChar();
+      });
   </script>
   </body>
 </html>
