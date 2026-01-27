@@ -168,3 +168,28 @@ li.revealed::before {
   content: "• ";
   color: var(--green);
 }
+
+/* Boot mode: NOTHING visible until revealed */
+.terminal.boot * {
+  opacity: 0;
+}
+
+/* Keep the cursor visible even during boot */
+.terminal.boot #term-cursor {
+  opacity: 1 !important;
+}
+
+/* When an element is revealed, it becomes visible */
+.revealed {
+  opacity: 1 !important;
+}
+
+/* Hide list markers during boot (bullets are ::marker, not text) */
+.terminal.boot li::marker {
+  color: transparent;
+}
+
+/* When revealed, markers show normally in green */
+li::marker {
+  color: var(--green);
+}
