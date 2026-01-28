@@ -24,6 +24,20 @@ The operating mode was **locked in**, **no script-kiddie behavior**, **brain ful
 
 No button-mashing. No tool spamming. Just professional curiosity and patience.
 
+## Engagement Context
+
+This entire project was conducted against a fictional organization with me acting as a simulated third-party penetration testing vendor.
+
+The framing mirrored a real consulting-style engagement:
+
+* The target environment represented a client-owned network and systems.
+
+* I operated as an external tester, not an internal administrator.
+
+* All findings, actions, and reporting were scoped to what a contracted penetration testing firm would be authorized to perform.
+
+This perspective influenced both the technical approach and the documentation style—treating the work as a client-facing assessment rather than an internal lab exercise.
+
 ---
 
 ## Tools & Technologies Used
@@ -77,6 +91,28 @@ I followed a structured penetration testing workflow—the kind that doesn’t f
 
 ---
 
+## Final Deliverable: Written Report
+
+In addition to the hands-on lab work, this project concluded with a formal written report documenting the engagement at a professional level.
+
+The report was structured to mirror how real penetration testing or security assessment findings are communicated to stakeholders:
+
+* **Engagement overview and scope definition**
+
+* **High-level methodology** used across all target systems
+
+* **Summarized findings per system** (without unnecessary technical noise)
+
+* **Clear separation** between discovery, validation, and outcomes
+
+* **Professional tone and formatting**, suitable for non-technical readers as well as technical reviewers
+
+Rather than serving as a step-by-step exploit guide, the report focused on **clarity, reasoning, and risk context**—explaining what was discovered, why it mattered, and how it fit into the overall security posture of the environment.
+
+This deliverable reinforced the idea that strong security work isn’t finished when access is obtained—the real value is in how clearly findings are documented, communicated, and contextualized.
+
+---
+
 ## What I Did (High-Level)
 
 * Performed full network and service enumeration across all assigned targets
@@ -84,6 +120,7 @@ I followed a structured penetration testing workflow—the kind that doesn’t f
 * Discovered credentials through enumeration and analysis (no brute force, no guessing)
 * Validated access paths and retrieved required flags
 * Managed multiple attack paths without losing scope, logic, or sanity
+* Authored a formal, client-facing penetration testing report documenting scope, methodology, high-level findings, and outcomes in a professional format
 
 ---
 
@@ -128,5 +165,3 @@ The emphasis on structure, judgment, and documentation reflects how actual secur
 Specific exploits, commands, flags, IP addresses, and step-by-step solutions are intentionally excluded to comply with course policy and preserve academic integrity. This overview focuses on **process, skills, and outcomes**, not answers.
 
 ---
-
-*Independent capstone-style demonstration of applied offensive security fundamentals. Locked in. Fully scoped. Vibes aligned. No walkthroughs consulted.*
