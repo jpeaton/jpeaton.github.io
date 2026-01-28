@@ -44,8 +44,9 @@ This perspective influenced both the technical approach and the documentation st
 
 * **Nmap** – Host discovery, port scanning, service enumeration (industry standard, still goated)
 * **Dirb / directory discovery tools** – Surfacing web content that probably shouldn’t be public
+* **Hydra/John the Ripper** – Confirm that weak password policies are, in fact, weak. Used rockyou.txt.
 * **Metasploit Framework** – Exploit research and controlled execution
-* **Linux (Kali / Ubuntu)** – Attacker environment
+* **Linux (Kali)** – Attacker environment
 * **Windows & Linux systems** – Target environments
 
 ### Supporting Concepts
