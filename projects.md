@@ -10,6 +10,6 @@ permalink: /projects/
 
   [Read more](projects-Net511FinalProject.md)
 
-- **CSEC 488: CTF Final Project:**: A solo penetration test where I acted as a third-party vendor, broke into things on purpose, stayed in scope, and wrote a fire report.
+- **CSEC 488: CTF Final Project:** A solo penetration test where I acted as a third-party vendor, broke into things on purpose, stayed in scope, and wrote a fire report.
 
   [Read more](projects-CSEC488FinalProject.md)
