@@ -6,7 +6,7 @@ permalink: /projects/CSEC488FinalProject
 
 # Project Overview
 
-This project is my **solo final lab for CSEC 488**, delivered as a Capture the Flag (CTF)–style engagement that simulates a real penetration test—except instead of dramatic music, it’s mostly terminal output and quiet reflection. The mission: compromise multiple target systems in a controlled lab environment and retrieve flags using realistic, entry-level offensive security techniques.
+This project was my **solo final lab for CSEC 488**, delivered as a Capture the Flag (CTF)–style engagement that simulates a real penetration test. A lot of terminal output and frustration which turned into self-reflection. The mission: compromise multiple target systems in a controlled lab environment and retrieve flags using realistic, entry-level offensive security techniques.
 
 The operating mode was **locked in**, **no script-kiddie behavior**, **brain fully online**. This wasn’t a speedrun exercise—it was a methodical, exam-condition engagement focused on doing things *the right way*. This overview stays intentionally high-level so it doesn’t accidentally turn into an academic integrity incident.
 
@@ -31,9 +31,7 @@ This entire project was conducted against a fictional organization with me actin
 The framing mirrored a real consulting-style engagement:
 
 * The target environment represented a client-owned network and systems.
-
 * I operated as an external tester, not an internal administrator.
-
 * All findings, actions, and reporting were scoped to what a contracted penetration testing firm would be authorized to perform.
 
 This perspective influenced both the technical approach and the documentation style—treating the work as a client-facing assessment rather than an internal lab exercise.
