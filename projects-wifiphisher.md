@@ -62,7 +62,9 @@ Opened Kali.
 Cloned wifiphisher.
 
 > git clone https://github.com/wifiphisher/wifiphisher.git
+
 > cd wifiphisher
+
 > sudo python setup.py install
 
 Kali immediately said dependencies were missing.
@@ -113,6 +115,7 @@ Plugged in the two USB Wi-Fi adapters.
 Verified they were recognized:
 
 > ip link show
+
 > iwconfig
 
 If they don’t show here, one thing I like to do is adjust my chair and try again.
