@@ -21,7 +21,7 @@ This project focuses on an Evil Twin Man-in-the-Middle (MITM) attack. We're not 
 
 And honestly? That’s the real vulnerability.
 
-## Why I Chose This (The "Work Smarter, Not Harder" Defense)
+## Why I Chose This
 
 Could I have tried brute-forcing a WPA2 handshake?
 
@@ -53,7 +53,7 @@ What we should really find interesting is that this method demonstrates somethin
 
 > Social engineering consistently outperforms technical brute force because it exploits *trust*, not software.
 
-## The Methodology: Bro is NOT cracking WPA2
+## The Methodology
 
 ### Step 1: Toolmaxxing
 
