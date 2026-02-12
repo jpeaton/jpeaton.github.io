@@ -204,9 +204,9 @@ That’s it.
 
 ## What This Actually Demonstrates
 
-This wasn’t brute-force maxxing.
+This wasn’t brute-force.
 
-It was human behavior maxxing.
+It was human behavior.
 
 WPA2 encryption is strong.
 
