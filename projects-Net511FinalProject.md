@@ -1,6 +1,6 @@
 ---
 layout: default
-title: NET 511 Final Project: Telecommunications Systems Design & Analysis
+title: NET 511 Final Project — Telecommunications Systems Design & Analysis
 permalink: /projects/Net511FinalProject
 ---
 
