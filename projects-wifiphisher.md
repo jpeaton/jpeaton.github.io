@@ -120,7 +120,7 @@ It can eavesdrop on every conversation (called Monitor Mode), kick people out of
 
 Without it, I’m just a guy with a laptop.
 
-With it, I’m gain control and power on the airwaves.
+With it, I gain control and power on the airwaves.
 
 If you're curious, here's what they look like (TP-Link AC600):
 
