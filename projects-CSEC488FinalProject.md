@@ -1,6 +1,6 @@
 ---
 layout: default
-title: CSEC 488 Final Project: CTF and Pen Test Report
+title: CSEC 488 Final Project — CTF and Pen Test Report
 permalink: /projects/CSEC488FinalProject
 ---
 
