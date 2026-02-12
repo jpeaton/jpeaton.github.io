@@ -8,7 +8,7 @@ permalink: /projects/wifiphisher/
 
 For my Capstone, the assignment sounded simple: intercept wireless traffic.
 
-Translation: become the villain in your own living room.
+Translation: become the villain in your own bedroom.
 
 But instead of writing a dry “packets were captured successfully 🤓☝️” report, I found something way more interesting:
 
