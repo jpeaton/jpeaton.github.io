@@ -98,11 +98,15 @@ Changed it to modern "configparser".
 
 Everything worked.
 
-Almost defeated by case sensitivity, but we persist.
+Almost defeated by case sensitivity, yet we persist.
+
+I forgot to screenshot me doing this install again.
+
+Here’s what it looks like once it finishes successfully:
 
 ![Step 2 Screenshot](assets/wifiphisher-step-2.png)
 
-### Step 3: Adaptermaxxing (dual-wield build)
+### Step 3: Adaptermaxxing
 
 Plugged in the two USB Wi-Fi adapters.
 
