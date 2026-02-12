@@ -89,15 +89,10 @@
           const block =
             el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote") || el;
         
-          // Reveal ONLY the current block
-          block.classList.remove("hidden-until-typed");
-          block.classList.add("revealed");
-        
-          // If the block contains an image, reveal it when this block is reached
-          block.querySelectorAll("img").forEach(img => {
-            img.classList.remove("hidden-until-typed");
-            img.classList.add("revealed");
-          });
+          // KEY CHANGE:
+          // Reveal everything up to the current block in DOM order,
+          // so image-only blocks pop in "as you reach them"
+          revealUpTo(block);
         
           // Keep cursor at the real insertion point
           el.appendChild(cursor);
