@@ -110,15 +110,38 @@
           const el = textNode.parentElement;
           if (!el) return;
         
+          // If we are typing inside an image anchor, reveal the image immediately
+          if (el.classList.contains("img-anchor")) {
+            // reveal everything up to the anchor in DOM order (so flow stays correct)
+            revealUpTo(el);
+        
+            const img = el.nextElementSibling;
+            if (img && img.tagName === "IMG") {
+              // reveal the image itself
+              img.classList.remove("hidden-until-typed");
+              img.classList.add("revealed");
+        
+              // also reveal its containing block (usually <p>)
+              const block = img.closest("p, li, blockquote, figure") || img.parentElement;
+              if (block) {
+                block.classList.remove("hidden-until-typed");
+                block.classList.add("revealed");
+              }
+            }
+        
+            // delete the dot so it never appears
+            textNode.nodeValue = "";
+        
+            el.appendChild(cursor);
+            return;
+          }
+        
           const block =
             el.closest("li, p, h1, h2, h3, h4, h5, h6, blockquote") || el;
         
-          // KEY CHANGE:
-          // Reveal everything up to the current block in DOM order,
-          // so image-only blocks pop in "as you reach them"
+          // reveal everything up to the current block in DOM order
           revealUpTo(block);
         
-          // Keep cursor at the real insertion point
           el.appendChild(cursor);
         }
       
