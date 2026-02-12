@@ -6,66 +6,257 @@ permalink: /projects/wifiphisher
 
 # The Wi-Fi is Gaslighting You: an MITM Project
 
-For a Capstone assignment, I was tasked with a simple objective: successfully intercept wireless traffic. But instead of just writing a dry report, I decided to dive into why your devices are essentially too clingy for their own good.
+For my Capstone, the assignment sounded simple: intercept wireless traffic.
 
-Using a pair of adapters and a healthy dose of technical mischief, I set out to prove that the biggest vulnerability in your home network isn't a complex software bug—it’s the fact that humans are hard-wired to trust a 'Please Enter Password' box if it pops up at the right time. This project isn't just a story about packet injection and SSID cloning; it’s a deep dive into the 'Evil Twin' method and why your Wi-Fi might actually be gaslighting you.
+Translation: become the villain in your own living room.
+
+But instead of writing a dry “packets were captured successfully 🤓☝️” report, I found something way more interesting:
+
+Your Wi-Fi doesn’t betray you in this attack.
+You betray yourself.
+
+![Wolf Looking at Moon Meme](assets/wolf-looking-at-moon.jpg)
+
+This project focuses on an Evil Twin Man-in-the-Middle (MITM) attack. We're not doing this by cracking encryption like a movie hacker. We're exploiting the fact that humans will type their Wi-Fi password anywhere if the pop-up feels urgent enough.
+
+And honestly? That’s the real vulnerability.
 
 ## Why I Chose This (The "Work Smarter, Not Harder" Defense)
 
-I chose the Evil Twin MITM approach because it targets the "human element" rather than trying to break complex encryption. While a traditional brute-force attack on a WPA2 handshake can take an eternity and depends entirely on the password's complexity, this method uses a Captive Portal to bypass the math entirely.
+Could I have tried brute-forcing a WPA2 handshake?
 
-By combining a deauthentication attack to kick the victim off the legitimate network with a cloned SSID, I created a scenario where the user "volunteers" their credentials to regain internet access. This demonstration proves that even with strong WPA2 encryption, Social Engineering remains the most efficient path for an attacker because it exploits the user's trust rather than the network's software.
+Sure.
 
-## The Methodology: A Step-by-Step Breakdown
+Could I have waited until 2047 for it to finish?
 
-### Step 1: The "I Hope This Installs" Phase
+Maybe.
 
-The first step was setting up the toolkit in Kali Linux. I cloned the wifiphisher repository from github and installed the dependencies.
+Instead, I chose the Evil Twin approach because it doesn’t fight encryption — it sidesteps it completely.
 
-git clone https://github.com/wifiphisher/wifiphisher.git
+Strong WPA2 password?
 
-sudo python setup.py install
+**Doesn’t matter.**
 
-[INSERT SCREENSHOT 1: Showing the wifiphisher directory downloaded]
+If I can:
 
-### Step 2: Fighting the Final Boss (Roguehostapd)
+1.) Kick you off your real Wi-Fi
 
-A major part of this assignment involved getting roguehostapd to function. I hit a massive skill check when the source code had an outdated ConfigParser module that was breaking everything. I had to manually patch hostapdconfig.py to use the **modern** configparser library.
+2.) Clone the same network name (SSID)
 
-[INSERT SCREENSHOT 2: Your code editor or terminal showing the roguehostapd files]
+3.) Show you a convincing “Router Firmware Update” page
 
-### Step 3: Manifesting the Evil Twin
+There’s a high chance you will willingly type your own password into my fake portal.
 
-With the tools patched, I was ready to launch wifiphisher. But first, I had to make sure my two USB Wi-Fi adapters were plugged in and recognized by the VM. Why two adapters? One needs to deauthenticate/jam the network so users are booted off. The other comes in to "save the day" by copying the SSID (Wi-Fi name) of the now jammed Wi-Fi. This took some time, but eventually they were both recognized and I was able to run wifiphisher.
+No math or cracking encryption. It's just good ole fashioned human psychology.
 
-I selected my target network, "704," and chose the Firmware Upgrade Page scenario. This is where the gaslighting begins... telling the user their router is needs to update.
+What we should really find interesting is that this method demonstrates something important:
 
-[INSERT SCREENSHOT 3: Wifiphisher scanning and selecting network 704]
+> Social engineering consistently outperforms technical brute force because it exploits *trust*, not software.
 
-### Step 4: The "Kick Out" (Deauthentication)
+## The Methodology: Bro is NOT cracking WPA2
 
-One adapter began jamming the original network while the other broadcasted the cloned, unsecured SSID. My host PC got kicked off the real Wi-Fi and, being a stage-five clinger, immediately looked for anything with the same name.
+### Step 1: Toolmaxxing
 
-[INSERT SCREENSHOT 4: Wifiphisher showing "Emitting Beacon frames" and jamming status]
+Opened Kali.
 
-### Step 5: Bypassing Windows
+Cloned wifiphisher.
 
-Modern Windows machines are suspicious. My PC tried to avoid my trap by redirecting to msn.com (default for Firefox) instead of the router update page. To force the issue, I manually navigated to the gateway IP, 10.0.0.1, which finally forced the fake "Firmware Upgrade" screen to load.
+> git clone https://github.com/wifiphisher/wifiphisher.git
+> cd wifiphisher
+> sudo python setup.py install
 
-[INSERT SCREENSHOT 5: The fake "Firmware Upgrade" page on the victim's browser]
+Kali immediately said dependencies were missing.
 
-### Step 6: Gimme the Loot!
+Installed them (through research and AI help):
 
-The victim (me) entered the [dummy] password TestPassword123! to "verify" the update. Instantly, my Kali terminal lit up with the credentials in cleartext. The "Firmware Upgrade In Progress" screen kept them distracted while I sat there with their keys.
+> sudo apt-get install libssl-dev libnl-3-dev libnl-genl-3-dev
 
-[INSERT SCREENSHOT 6: Kali terminal showing the captured POST request and the password]
+Dependencies = things your code needs before it can perform.
 
-## What I Learned (The TL;DR)
+Tool installed.
 
-The biggest hurdle was realizing that modern hardware and operating systems are much more resilient than I expected. Getting drivers to cooperate and bypassing Windows "connectivity checks" proved that the environment setup is often harder than the actual attack.
+I forgot to screenshot me doing this install but you can trust it happened.
 
-I learned that intercepting wireless traffic isn't just about technical skill—it's about understanding how devices "handshake" and how easily that trust can be manipulated. To prevent being exploited this way, victims should be wary of "Open" networks that share the same name as their home Wi-Fi and never enter a Pre-Shared Key into a browser-based pop-up.
+Here’s what it looks like once it finishes successfully:
 
-## The Moral of the Story
+![Step 1 Screenshot](assets/wifiphisher-step-1.png)
 
-Upgrade to WPA3, use a VPN, and if your Wi-Fi starts acting mid or asks for your password in a browser tab, do a double take.
+### Step 2: Patchmaxxing roguehostapd
+
+Evil Twin requires:
+
+* One adapter = deauth (network eviction notice)
+* One adapter = rogue access point (identity theft for Wi-Fi)
+
+After much deliberation with Google and ChatGPT, I found that roguehostapd kept breaking because of an outdated "ConfigParser" module.
+
+One import line was wrong.
+
+One.
+
+Changed it to modern "configparser".
+
+Everything worked.
+
+Almost defeated by case sensitivity, but we persist.
+
+![Step 2 Screenshot](assets/wifiphisher-step-2.png)
+
+### Step 3: Adaptermaxxing (dual-wield build)
+
+Plugged in the two USB Wi-Fi adapters.
+
+Verified they were recognized:
+
+> ip link show
+> iwconfig
+
+If they don’t show here, one thing I like to do is adjust my chair and try again.
+
+![Step 3-1 Screenshot](assets/wifiphisher-step-3-1.png)
+
+Launched wifiphisher.
+
+Selected target network (redacted because we don't dox our neighbors).
+
+![Step 3-2 Screenshot](assets/wifiphisher-step-3-2.png)
+
+Chose the Firmware Upgrade Page scenario.
+
+![Step 3-3 Screenshot](assets/wifiphisher-step-3-3.png)
+
+The attack logic is simple:
+
+Disconnect victim → Clone SSID → Present urgency → Wait.
+
+We're not breaking WPA2.
+
+We're taking advantage of user trust.
+
+### Step 4: Deauthmaxxing
+
+Adapter #1 began deauthing the real network.
+
+Translation: It told everyone "you need to leave".
+
+Adapter #2 broadcasted the cloned SSID.
+
+Same name, same signal vibe, just different intentions.
+
+My machine got kicked off.
+
+Immediately reconnected... to the fake one.
+
+Because devices see:
+
+> familiar name = safe.
+
+![Step 4-1 Screenshot](assets/wifiphisher-step-4-1.png)
+
+My machine got kicked off.
+
+It immediately reconnected... to the fake one.
+
+Because devices see:
+
+> familiar name = safe.
+
+![Step 4-2 Screenshot](assets/wifiphisher-step-4-2.png)
+
+### Step 5: Windows tried awarenessmaxxing
+
+Modern Windows did not immediately fold.
+
+It redirected to a connectivity check site (msn.com) instead of loading my fake portal.
+
+Respectable.
+
+So I manually navigated to the gateway:
+
+> 10.0.0.1
+
+Forced the captive portal to display.
+
+Fake firmware update page loads.
+
+Convincing, yet mildly annoying.
+
+Exactly the aesthetic attackers want.
+
+![Step 5 Screenshot](assets/wifiphisher-step-5.png)
+
+### Step 6: Credential farming complete
+
+Entered a dummy password:
+
+> TestPassword123!
+
+Kali terminal immediately displayed it in cleartext.
+
+Meanwhile the browser said:
+
+> Firmware upgrade in progress…
+
+The victim is watching a loading bar while his keys are already gone.
+
+That’s it.
+
+![Step 6 Screenshot](assets/wifiphisher-step-6.png)
+
+## What This Actually Demonstrates
+
+This wasn’t brute-force maxxing.
+
+It was human behavior maxxing.
+
+WPA2 encryption is strong.
+
+But:
+
+* Familiarity bias
+* Urgency
+* Automatic reconnection behavior
+
+Those are predictable.
+
+Predictability = farmable.
+
+Modern OS protections made setup harder than the attack itself.
+
+The technical barrier is rising.
+
+The human barrier is stable.
+
+## How to Not Get Farmed
+
+If your Wi-Fi:
+
+• randomly disconnects
+• reconnects as “Open”
+• asks for your password in a browser
+
+Do not do anything
+
+Pause.
+
+![Pause Image](assets/pause-shaq.png)
+
+Breathe. 
+
+![Breathe Image](assets/breathe.jpg)
+
+Look.
+
+![Look Image](assets/look.png)
+
+Verify.
+
+![Thumbs Up Guy](assets/verify.jpg)
+
+Because the attacker is not always going to try to break your machine.
+
+In this instance, he's just trustmaxxing.
+
+And if you type your password into a pop-up without thinking, you are NOT being hacked.
+
+You are being **harvested**.
