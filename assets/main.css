@@ -211,5 +211,6 @@ main.terminal img {
   display:inline-block;
   width:0;
   overflow:hidden;
-  white-space:nowrap;
+  font-size:0;
+  line-height:0;
 }
