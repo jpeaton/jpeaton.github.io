@@ -150,14 +150,6 @@ Adapter #2 broadcasted the cloned SSID.
 
 Same name, same signal vibe, just different intentions.
 
-My machine got kicked off.
-
-Immediately reconnected... to the fake one.
-
-Because devices see:
-
-> familiar name = safe.
-
 ![Step 4-1 Screenshot](assets/wifiphisher-step-4-1.png)
 
 My machine got kicked off.
