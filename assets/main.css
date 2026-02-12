@@ -150,6 +150,7 @@ h6.revealed::before {
 /* Hide elements until JS reveals them */
 .hidden-until-typed {
   opacity: 0;
+  pointer-events: none;
 }
 
 /* Remove default bullets (they show too early) */
@@ -180,6 +181,8 @@ li.revealed::before {
 /* When an element is revealed, it becomes visible */
 .revealed {
   opacity: 1 !important;
+  pointer-events: auto;
+  transition: opacity 150ms ease;
 }
 
 /* Hide list markers during boot (bullets are ::marker, not text) */
@@ -190,4 +193,15 @@ li.revealed::before {
 /* When revealed, markers show normally in green */
 li::marker {
   color: var(--green);
+}
+
+/* Sizing for images */
+main.terminal img {
+  display: block;
+  width: 100%;
+  max-width: 720px;     /* pick your preferred max */
+  height: auto;
+  max-height: 420px;    /* keeps tall screenshots from being huge */
+  object-fit: contain;  /* preserves full image without cropping */
+  margin: 14px 0;
 }
