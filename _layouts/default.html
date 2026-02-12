@@ -43,11 +43,17 @@
         const hideEls = Array.from(container.querySelectorAll(hideSelectors));
         hideEls.forEach(el => el.classList.add("hidden-until-typed"));
 
+        // --- Image anchors: make the typer "hit" images in-flow ---
         const imgs = Array.from(container.querySelectorAll("img"));
         imgs.forEach(img => {
-          // avoid double-inserting if script reruns
-          if (img.previousSibling && img.previousSibling.nodeType === Node.TEXT_NODE && img.previousSibling.nodeValue === "\u200B") return;
-          img.parentNode.insertBefore(document.createTextNode("\u200B"), img);
+          // prevent duplicates
+          if (img.previousSibling && img.previousSibling.nodeType === Node.ELEMENT_NODE &&
+              img.previousSibling.classList.contains("img-anchor")) return;
+        
+          const anchor = document.createElement("span");
+          anchor.className = "img-anchor";
+          anchor.textContent = "."; // must be non-whitespace so TreeWalker doesn't reject it
+          img.parentNode.insertBefore(anchor, img);
         });
         
         hideEls.sort((a, b) => {
