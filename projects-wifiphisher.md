@@ -87,8 +87,8 @@ Here’s what it looks like once it finishes successfully:
 
 Evil Twin requires:
 
-* One adapter = deauth (network eviction notice)
-* One adapter = rogue access point (identity theft for Wi-Fi)
+* One Wi-Fi adapter = deauth (network eviction notice)
+* One Wi-Fi adapter = rogue access point (identity theft for Wi-Fi)
 
 After much deliberation with Google and ChatGPT, I found that roguehostapd kept breaking because of an outdated "ConfigParser" module.
 
@@ -110,7 +110,21 @@ Here’s what it looks like once it finishes successfully:
 
 ### Step 3: Adaptermaxxing
 
-Plugged in the two USB Wi-Fi adapters.
+Plugged in the two USB Wi-Fi adapters to my PC.
+
+Think of a normal Wi-Fi card as an NPC. It only talks when it’s spoken to and follows the rules.
+
+The TP-Link adapter is your playable character.
+
+It can eavesdrop on every conversation (called Monitor Mode), kick people out of the server whenever it wants (packet injection/deauth), and literally pretend to be the server itself (called AP Mode).
+
+Without it, I’m just a guy with a laptop.
+
+With it, I’m gain control and power on the airwaves.
+
+If you're curious, here's what they look like (TP-Link AC600):
+
+![Wi-Fi Adapter](assets/usb-adapter.jpg)
 
 Verified they were recognized:
 
