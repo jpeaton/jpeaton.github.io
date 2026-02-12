@@ -6,7 +6,7 @@ permalink: /projects/wifiphisher/
 
 # The Wi-Fi is Gaslighting You
 
-For my Capstone, the assignment sounded simple: intercept wireless traffic.
+For my Capstone class, one of our assignments sounded simple: intercept wireless traffic.
 
 Translation: become the villain in your own bedroom.
 
