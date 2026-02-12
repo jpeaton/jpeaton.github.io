@@ -73,6 +73,17 @@
             if (el === targetEl) break;
           }
         }
+
+        // Insert invisible "image anchors" right before each image
+        Array.from(container.querySelectorAll("img")).forEach(img => {
+          if (img.previousSibling && img.previousSibling.nodeType === 1 &&
+              img.previousSibling.classList.contains("img-anchor")) return;
+        
+          const anchor = document.createElement("span");
+          anchor.className = "img-anchor hidden-until-typed";
+          anchor.textContent = "."; // must be non-whitespace so your TreeWalker accepts it
+          img.parentNode.insertBefore(anchor, img);
+        });
         
         // Collect text nodes (skip pre/code)
         const walker = document.createTreeWalker(
