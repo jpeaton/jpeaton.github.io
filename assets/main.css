@@ -205,3 +205,11 @@ main.terminal img {
   object-fit: contain;  /* preserves full image without cropping */
   margin: 14px 0;
 }
+
+/* this is so dot never shows */
+.img-anchor{
+  display:inline-block;
+  width:0;
+  overflow:hidden;
+  white-space:nowrap;
+}
