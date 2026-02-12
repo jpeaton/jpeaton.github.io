@@ -1,7 +1,7 @@
 ---
 layout: default
 title: The Wi-Fi is Gaslighting You: An MITM Project
-permalink: /projects/projects-wifiphisher
+permalink: /projects/wifiphisher
 ---
 
 # The Wi-Fi is Gaslighting You: an MITM Project
