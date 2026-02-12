@@ -1,10 +1,10 @@
 ---
 layout: default
-title: The Wi-Fi is Gaslighting You: An MITM Project
+title: The Wi-Fi is Gaslighting You (An MITM Project)
 permalink: /projects/wifiphisher
 ---
 
-# The Wi-Fi is Gaslighting You: an MITM Project
+# The Wi-Fi is Gaslighting You
 
 For my Capstone, the assignment sounded simple: intercept wireless traffic.
 
