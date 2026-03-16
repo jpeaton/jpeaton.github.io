@@ -6,7 +6,7 @@
 
 ## Cybersecurity & Technology
 
-I document real-world IT security work, practical notes, and lessons learned through my work/studies.
+Notes, projects, and things I find interesting while working and studying in cybersecurity.
 
 ---
 
