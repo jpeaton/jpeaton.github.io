@@ -1,8 +1,8 @@
 # ./run_website.sh
 
-# Happy New Year, World!
+# Happy Easter, World!
 
-<img src="/assets/ch_new_year.jpg" alt="Welcome" class="welcome-img">
+<img src="/assets/easter_2026.jpg" alt="Welcome" class="welcome-img">
 
 ## Cybersecurity & Technology
 
